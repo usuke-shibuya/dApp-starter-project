@@ -15,7 +15,7 @@ const App = () => {
   const [allWaves, setAllWaves] = useState([]);
   console.log("currentAccount: ", currentAccount);
   /* デプロイされたコントラクトのアドレスを保持する変数を作成 */
-  const contractAddress = "0xf5b2f2d439C81Ac32Ef793d320d0d461a9C44E01";
+  const contractAddress = "0x5e3ba44a7dc22E41880f36d0E8A988308077E49c";
   /* コントラクトからすべてのwavesを取得するメソッドを作成 */
   /* ABIの内容を参照する変数を作成 */
   const contractABI = abi.abi;
@@ -69,6 +69,7 @@ const App = () => {
         },
       ]);
     };
+
     /* NewWaveイベントがコントラクトから発信されたときに、情報をを受け取ります */
     if (window.ethereum) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -89,7 +90,7 @@ const App = () => {
     };
   }, []);
 
-  /* window.ethereumにアクセスできることを確認 */
+  /* window.ethereumにアクセスできることを確認する関数を実装 */
   const checkIfWalletIsConnected = async () => {
     try {
       const { ethereum } = window;
@@ -160,7 +161,7 @@ const App = () => {
           wavePortalContract.address
         );
         /* コントラクトの残高が減っていることを確認 */
-        if (contractBalance_post < contractBalance) {
+        if (contractBalance_post.lt(contractBalance)) {
           /* 減っていたら下記を出力 */
           console.log("User won ETH!");
         } else {
@@ -178,7 +179,7 @@ const App = () => {
     }
   };
 
-  /* WEBページがロードされたときに下記の関数を実行 */
+  /* WEBページがロードされたときにcheckIfWalletIsConnected()を実行 */
   useEffect(() => {
     checkIfWalletIsConnected();
   }, []);
